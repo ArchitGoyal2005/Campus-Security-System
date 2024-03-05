@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import AppError from "./utils/AppError";
 
 const app = express();
 
@@ -10,6 +11,10 @@ app.get("/", (req, res, next) => {
   return res.status(200).json({
     status: "ok",
   });
+});
+
+app.use("*", (req, res, next) => {
+  next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
 });
 
 export default app;
