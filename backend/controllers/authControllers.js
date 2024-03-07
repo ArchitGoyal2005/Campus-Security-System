@@ -1,10 +1,10 @@
 import User from "../models/usermodels.js";
+
 import { promisify } from "util";
-import crypto from "crypto";
 import jwt from "jsonwebtoken";
+
 import catchAsync from "../utils/catchAsync.js";
 import AppError from "../utils/AppError.js";
-import express from "express";
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_CODE, {
@@ -34,12 +34,11 @@ const createSendToken = (user, statusCode, res) => {
   });
 };
 export const signUp = catchAsync(async (req, res, next) => {
-  const newUser = await User.create({
-    name: req.body.name,
-    email: req.body.email,
-    password: req.body.password,
-    passwordConfirm: req.body.passwordConfirm,
-  });
+  if (req.body.roles === "admin" || req.body.roles === "guard")
+    return next(
+      new AppError("You do not have permission to signup as a moderator", 401)
+    );
+  const newUser = await User.create(req.body);
   createSendToken(newUser, 201, res);
 });
 
@@ -47,13 +46,13 @@ export const login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    return next(new AppError("please provide email and password", 400));
+    return next(new AppError("please provide your email and password", 400));
   }
   const user = await User.findOne({ email }).select("+password");
   console.log(user);
   if (!user || !(await user.correctPassword(password, user.password))) {
     return next(
-      new AppError("the email doesnot exist or password does not match", 401)
+      new AppError("The e-mail does not exists or password does not match", 401)
     );
   }
   createSendToken(user, 201, res);
@@ -86,6 +85,13 @@ export const protect = catchAsync(async (req, res, next) => {
       )
     );
   }
+
+  if (freshUser.changedPasswordAfter(decoded.iat)) {
+    return next(
+      new AppError("User recently changed password! Please login again", 401)
+    );
+  }
+
   req.user = freshUser;
   next();
 });
