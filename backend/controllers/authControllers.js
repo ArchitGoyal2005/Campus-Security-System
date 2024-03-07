@@ -3,7 +3,7 @@ import { promisify } from "util";
 import crypto from "crypto";
 import jwt from "jsonwebtoken";
 import catchAsync from "../utils/catchAsync.js";
-import appError from "../utils/appError.js";
+import AppError from "../utils/AppError.js";
 import express from "express";
 
 const signToken = (id) => {
@@ -47,13 +47,13 @@ export const login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    return next(new appError("please provide email and password", 400));
+    return next(new AppError("please provide email and password", 400));
   }
   const user = await User.findOne({ email }).select("+password");
   console.log(user);
   if (!user || !(await user.correctPassword(password, user.password))) {
     return next(
-      new appError("the email doesnot exist or password does not match", 401)
+      new AppError("the email doesnot exist or password does not match", 401)
     );
   }
   createSendToken(user, 201, res);
@@ -71,7 +71,7 @@ export const protect = catchAsync(async (req, res, next) => {
   }
   if (!token) {
     return next(
-      new appError("you are not  logged in please login to get toekn!! ", 401)
+      new AppError("you are not  logged in please login to get toekn!! ", 401)
     );
   }
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_CODE);
@@ -80,7 +80,7 @@ export const protect = catchAsync(async (req, res, next) => {
   const freshUser = await User.findById(decoded.id);
   if (!freshUser) {
     return next(
-      new appError(
+      new AppError(
         `the user belonging to this token does not exist anymore`,
         401
       )
@@ -94,7 +94,7 @@ export const restrictTo = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.roles)) {
       return next(
-        new appError("you do not have permission to perfoem this", 403)
+        new AppError("you do not have permission to perfoem this", 403)
       );
     }
     next();
