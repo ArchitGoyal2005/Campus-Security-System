@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-import app from "./app";
+import app from "./app.js";
 
 process.on("uncaughtException", (err) => {
   console.log(err.name, err.message);
@@ -11,12 +11,12 @@ process.on("uncaughtException", (err) => {
 dotenv.config({ path: "./config.env" });
 
 const port = process.env.PORT;
+console.log(process.env.PORT);
+const dbUrl = process.env.DB_URI.replace("<password>", process.env.DB_PASS);
 
-// const dbUrl = process.env.DB_URI.replace("<password>", process.env.DB_PASS);
-
-// mongoose.connect(dbUrl).then(() => {
-//   console.log("Database is running");
-// });
+mongoose.connect(dbUrl).then(() => {
+  console.log("Database is running");
+});
 
 const server = app.listen(port, () => {
   console.log("Server is running on the port ", port);
