@@ -19,6 +19,25 @@ export const getOne = (Model) =>
     });
   });
 
+export const UpdateOne = (Model) =>
+  catchAsync(async (req, res, next) => {
+    const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runvalidators: true,
+    });
+
+    if (!doc) {
+      return next(new AppError("No document found with the ID", 404));
+    }
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        data: doc,
+      },
+    });
+  });
+
 export const createOne = (Model) =>
   catchAsync(async (req, res, next) => {
     const doc = await Model.create(req.body);
@@ -33,7 +52,6 @@ export const createOne = (Model) =>
 export const deleteOne = (Model) =>
   catchAsync(async (req, res, next) => {
     const doc = await Model.findByIdAndDelete(req.params.id);
-    console.log(doc);
     if (!doc) {
       return next(new AppError("No doc found with the ID", 404));
     }
