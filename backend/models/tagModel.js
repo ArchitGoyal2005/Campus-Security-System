@@ -5,6 +5,7 @@ const tagSchema = mongoose.Schema(
     tagID: {
       type: String,
       trim: true,
+      unique: true,
       require: [true, "There must be a tagID"],
     },
     user: {
