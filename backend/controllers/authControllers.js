@@ -34,7 +34,7 @@ const createSendToken = (user, statusCode, res) => {
   });
 };
 export const signUp = catchAsync(async (req, res, next) => {
-  if (req.body.roles === "admin" || req.body.roles === "guard")
+  if (req.body.roles === "admin")
     return next(
       new AppError("You do not have permission to signup as a moderator", 401)
     );
@@ -49,7 +49,6 @@ export const login = catchAsync(async (req, res, next) => {
     return next(new AppError("please provide your email and password", 400));
   }
   const user = await User.findOne({ email }).select("+password");
-  console.log(user);
   if (!user || !(await user.correctPassword(password, user.password))) {
     return next(
       new AppError("The e-mail does not exists or password does not match", 401)
