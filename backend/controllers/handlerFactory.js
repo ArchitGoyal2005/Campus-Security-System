@@ -1,4 +1,4 @@
-import { ApiFeatures } from "../utils/apiFeatures.js";
+import { ApiFeatures } from "../utils/ApiFeatures.js";
 import AppError from "../utils/AppError.js";
 import catchAsync from "../utils/catchAsync.js";
 
