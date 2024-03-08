@@ -12,8 +12,8 @@ const Router = express.Router(); // Change this line
 
 Router.post("/signup", signUp);
 Router.post("/login", login);
-Router.get("/getAllUsers", getAllUsers);
-Router.get("/getOneUser", getOneUser);
-Router.delete("/deleteOneUser", deleteOneUser);
+Router.get("/", getAllUsers);
+Router.get("/:id", getOneUser);
+Router.delete("/:id", deleteOneUser);
 
 export default Router;

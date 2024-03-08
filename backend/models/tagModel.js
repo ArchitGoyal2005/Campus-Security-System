@@ -10,7 +10,7 @@ const tagSchema = mongoose.Schema(
     user: {
       type: mongoose.Schema.ObjectId,
       ref: "User",
-      require: [true, "A review must belong to a user"],
+      require: [true, "A Tag must belong to a user"],
     },
     isActive: {
       type: Boolean,
