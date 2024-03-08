@@ -11,7 +11,6 @@ process.on("uncaughtException", (err) => {
 dotenv.config({ path: "./config.env" });
 
 const port = process.env.PORT;
-console.log(process.env.PORT);
 const dbUrl = process.env.DB_URI.replace("<password>", process.env.DB_PASS);
 
 mongoose.connect(dbUrl).then(() => {

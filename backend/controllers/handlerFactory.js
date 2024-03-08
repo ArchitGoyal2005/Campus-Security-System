@@ -1,17 +1,7 @@
+import { ApiFeatures } from "../utils/ApiFeatures.js";
 import AppError from "../utils/AppError.js";
 import catchAsync from "../utils/catchAsync.js";
 
-export const getAll = (Model) =>
-  catchAsync(async (req, res, next) => {
-    const doc = await Model.find();
-    res.status(200).json({
-      status: "success",
-      result: doc.length,
-      data: {
-        doc,
-      },
-    });
-  });
 export const getOne = (Model) =>
   catchAsync(async (req, res, next) => {
     const doc = await Model.findById(req.params.id);
@@ -49,5 +39,24 @@ export const deleteOne = (Model) =>
     res.status(204).json({
       status: "success",
       data: null,
+    });
+  });
+
+export const getAll = (Model) =>
+  catchAsync(async (req, res, next) => {
+    const features = new ApiFeatures(Model.find({}), req.query)
+      .filter()
+      .sort()
+      .limitingFields()
+      .pagination();
+
+    const doc = await features.query;
+
+    res.status(200).json({
+      status: "success",
+      result: doc.length,
+      data: {
+        doc,
+      },
     });
   });
