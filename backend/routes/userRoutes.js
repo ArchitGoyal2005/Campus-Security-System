@@ -6,6 +6,7 @@ import {
   getAllUsers,
   getOneUser,
   deleteOneUser,
+  searchByMobileNo,
 } from "../controllers/userControllers.js";
 
 console.log(getAllUsers);

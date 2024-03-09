@@ -63,6 +63,12 @@ export const deleteOne = (Model) =>
 
 export const getAll = (Model) =>
   catchAsync(async (req, res, next) => {
+    let filter = {};
+    if (req.query.mobileNumber) {
+      filter = { mobileNumber: Number(req.query.mobileNumber) };
+      console.log(filter);
+    }
+    console.log(ApiFeatures);
     const features = new ApiFeatures(Model.find({}), req.query)
       .filter()
       .sort()
