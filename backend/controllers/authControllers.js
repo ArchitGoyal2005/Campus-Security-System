@@ -10,8 +10,8 @@ const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_CODE, {
     expiresIn: process.env.JWT_EXPIRES,
   });
-  console.log(expiresIn);
 };
+
 const createSendToken = (user, statusCode, res) => {
   const token = signToken(user._id);
   const cookieOption = {
@@ -21,18 +21,20 @@ const createSendToken = (user, statusCode, res) => {
     httpOnly: true,
   };
 
-  if (process.env.NODE_ENV === "production") {
-    cookieOption.secure = true;
-  }
+  // cookieOption.secure = true;
+
+  user.password = undefined;
+
   res.cookie("jwt", token, cookieOption);
   res.status(statusCode).json({
-    statusbar: "success",
-    token: token,
+    status: "success",
+    token,
     data: {
       user,
     },
   });
 };
+
 export const signUp = catchAsync(async (req, res, next) => {
   if (req.body.roles === "admin")
     return next(
@@ -54,8 +56,7 @@ export const login = catchAsync(async (req, res, next) => {
       new AppError("The e-mail does not exists or password does not match", 401)
     );
   }
-  createSendToken(user, 201, res);
-  const token = signToken(user._id);
+  createSendToken(user, 200, res);
 });
 
 export const protect = catchAsync(async (req, res, next) => {
