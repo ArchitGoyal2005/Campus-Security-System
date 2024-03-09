@@ -1,12 +1,11 @@
-import Nav from "./sections/nav.jsx";
-import Login from "./sections/login.jsx";
+// import Nav from "./sections/nav.jsx";
+// import Login from "./sections/login.jsx";
+import AppLayout from "./components/AppLayout.jsx";
+// import VisitorDetails from "./sections/visitorDetails.jsx";
 function App() {
   return (
-    <main className="relative">
-      <Nav />
-      <section>
-        <Login />
-      </section>
+    <main className="grid">
+      <AppLayout />
     </main>
   );
 }

@@ -10,3 +10,17 @@
   box-sizing: border-box;
   scroll-behavior: smooth;
 }
+@layer utilities {
+  @variants responsive {
+    /* hide scrollbar for chrome, safari and opera */
+
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .no-scrollbar {
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
+    }
+  }
+}
