@@ -1,8 +1,13 @@
 import { Form, redirect, useLoaderData, useSubmit } from "react-router-dom";
 import Button from "../components/Button";
 import axios from "axios";
+import SearchByMobile from "../components/SearchByMobile";
+import { useState } from "react";
 
 function VisitorDetails() {
+  const [user, setUser] = useState(null);
+  const [mobile, setMobile] = useState("");
+
   const tagId = useLoaderData();
   const submit = useSubmit();
 
@@ -10,7 +15,11 @@ function VisitorDetails() {
     e.preventDefault();
     submit(e.currentTarget);
     e.currentTarget.reset();
+    setMobile("");
+    setUser({});
   }
+
+  console.log(document.cookie);
 
   return (
     <section className="bg-[url('assets/iit.svg')] bg-cover bg-center bg-no-repeat h-screen flex justify-center items-center">
@@ -27,23 +36,41 @@ function VisitorDetails() {
               name="tagId"
               defaultValue={tagId}
             />
-            <input
+            {/* <input
               className="w-full flex items-center gap-5 p-3 rounded-full bg-[#5184B7] placeholder-black"
               type="text"
               placeholder="Phone Number"
               name="mobileNumber"
+            /> */}
+            <SearchByMobile
+              setUser={setUser}
+              user={user}
+              mobile={mobile}
+              setMobile={setMobile}
+            />
+            <input
+              className="hidden"
+              type="text"
+              name="mobileNumber"
+              defaultValue={user?.mobileNumber || mobile}
             />
             <input
               className="w-full flex items-center gap-5 p-3 rounded-full bg-[#5184B7] placeholder-black"
               type="text"
               placeholder="First Name"
               name="firstName"
+              defaultValue={
+                user ? (user.name ? user.name.split(" ")[0] : "") : ""
+              }
             />
             <input
               className="w-full flex items-center gap-5 p-3 rounded-full bg-[#5184B7] placeholder-black"
               type="text"
               placeholder="Last Name"
               name="lastName"
+              defaultValue={
+                user ? (user.name ? user.name.split(" ")[1] || " " : "") : ""
+              }
             />
             <input
               className="w-full flex items-center gap-5 p-3 rounded-full bg-[#5184B7] placeholder-black"
@@ -61,6 +88,7 @@ function VisitorDetails() {
               type="text"
               placeholder="Email Id"
               name="email"
+              defaultValue={user ? (user.email ? user.email : " ") : ""}
             />
             <input
               className="w-full flex items-center gap-5 p-3 rounded-full bg-[#5184B7] placeholder-black"
@@ -84,6 +112,8 @@ export default VisitorDetails;
 export const visitorAction = async function ({ request }) {
   const formData = await request.formData();
 
+  console.log(Object.fromEntries(formData));
+
   const {
     tagId: tagID,
     mobileNumber,
@@ -101,7 +131,7 @@ export const visitorAction = async function ({ request }) {
 
   const { id } = userRes.data.data.user;
 
-  const tagRes = await axios.post("http://127.0.0.1:8000/api/v1/tag", {
+  await axios.post("http://127.0.0.1:8000/api/v1/tag", {
     tagID,
     placeOfVisit,
     purposeOfVisit,
