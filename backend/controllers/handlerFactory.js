@@ -66,8 +66,9 @@ export const getAll = (Model) =>
     const features = new ApiFeatures(Model.find({}), req.query)
       .filter()
       .sort()
-      .limitingFields()
-      .pagination();
+      .fields()
+      .pagination()
+      .search();
 
     const doc = await features.query;
 

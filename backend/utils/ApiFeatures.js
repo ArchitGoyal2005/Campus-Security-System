@@ -5,7 +5,7 @@ export class ApiFeatures {
   }
   filter() {
     let queryObj = { ...this.queryRequest };
-    const excludeFeilds = ["sort", "limit", "fields", "page"];
+    const excludeFeilds = ["sort", "limit", "fields", "page", "search"];
     excludeFeilds.forEach((el) => delete queryObj[el]);
 
     let queryStr = JSON.stringify(queryObj);
@@ -34,11 +34,19 @@ export class ApiFeatures {
     }
     return this;
   }
-  pageination() {
+  pagination() {
     const page = this.queryRequest.page * 1 || 1;
     const limit = this.queryRequest.limit * 1 || 100;
     const skip = (page - 1) * limit;
     this.query = this.query.skip(skip).limit(limit);
+    return this;
+  }
+  search() {
+    if (this.queryRequest.search) {
+      this.query = this.query.find({
+        mobileNumber: { $regex: this.queryRequest.search, $options: "i" },
+      });
+    }
     return this;
   }
 }

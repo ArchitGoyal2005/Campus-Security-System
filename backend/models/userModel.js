@@ -19,7 +19,7 @@ const userSchema = mongoose.Schema(
       select: true,
     },
     mobileNumber: {
-      type: Number,
+      type: String,
       required: [true, "A user must have a Mobile No."],
       unique: true,
       length: 10,
