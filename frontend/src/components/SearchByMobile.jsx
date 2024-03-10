@@ -5,9 +5,9 @@ function SearchByMobile({ setUser, user, mobile, setMobile }) {
   const [data, setData] = useState([]);
 
   function handleChange(e) {
-    setUser(null);
     setMobile(() => e.target.value);
     getData(e.target.value);
+    setUser(null);
   }
 
   async function getData(mobile) {

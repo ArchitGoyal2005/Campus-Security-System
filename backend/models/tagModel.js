@@ -20,7 +20,7 @@ const tagSchema = mongoose.Schema(
     placeOfVisit: {
       type: String,
     },
-    puproseOfVisit: {
+    purposeOfVisit: {
       type: String,
     },
     underSupervisionOf: {

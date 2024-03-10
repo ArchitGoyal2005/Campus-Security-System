@@ -19,8 +19,6 @@ function VisitorDetails() {
     setUser({});
   }
 
-  console.log(document.cookie);
-
   return (
     <section className="bg-[url('assets/iit.svg')] bg-cover bg-center bg-no-repeat h-screen flex justify-center items-center">
       <div className="w-[1025px] h-[650px] rounded-[20px] shadow-3xl border-gray-800 flex flex-row justify-center bg-[#CDE8E8] opacity-80">
@@ -47,6 +45,12 @@ function VisitorDetails() {
               type="text"
               name="mobileNumber"
               defaultValue={user?.mobileNumber || mobile}
+            />
+            <input
+              className="hidden"
+              type="text"
+              name="user"
+              defaultValue={user ? (user.id ? user.id : undefined) : undefined}
             />
             <input
               className="w-full flex items-center gap-5 p-3 rounded-full bg-[#5184B7] placeholder-black"
@@ -82,7 +86,7 @@ function VisitorDetails() {
               type="text"
               placeholder="Email Id"
               name="email"
-              defaultValue={user ? (user.email ? user.email : " ") : ""}
+              defaultValue={user ? (user.email ? user.email : "") : ""}
             />
             <input
               className="w-full flex items-center gap-5 p-3 rounded-full bg-[#5184B7] placeholder-black"
@@ -116,14 +120,21 @@ export const visitorAction = async function ({ request }) {
     placeOfVisit,
     purposeOfVisit,
     email,
+    user,
   } = Object.fromEntries(formData);
 
-  const userRes = await axios.post(
-    "http://127.0.0.1:8000/api/v1/users/signUp",
-    { mobileNumber, name: firstName + lastName, email }
-  );
+  let id;
 
-  const { id } = userRes.data.data.user;
+  if (user === "") {
+    const userRes = await axios.post("http://127.0.0.1:8000/api/v1/users/", {
+      mobileNumber,
+      name: firstName + lastName,
+      email,
+    });
+    id = userRes.data.data.user.id;
+  } else {
+    id = user;
+  }
 
   await axios.post("http://127.0.0.1:8000/api/v1/tag", {
     tagID,
