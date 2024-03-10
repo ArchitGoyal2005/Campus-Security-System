@@ -36,12 +36,6 @@ function VisitorDetails() {
               name="tagId"
               defaultValue={tagId}
             />
-            {/* <input
-              className="w-full flex items-center gap-5 p-3 rounded-full bg-[#5184B7] placeholder-black"
-              type="text"
-              placeholder="Phone Number"
-              name="mobileNumber"
-            /> */}
             <SearchByMobile
               setUser={setUser}
               user={user}

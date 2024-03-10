@@ -3,9 +3,11 @@ import Nav from "../sections/nav";
 
 function Layout() {
   return (
-    <main className="relative">
+    <main className="grid h-screen grid-rows-[auto_1fr_auto]">
       <Nav />
-      <Outlet />
+      <div className="overflow-scroll no-scrollbar">
+        <Outlet />
+      </div>
     </main>
   );
 }
