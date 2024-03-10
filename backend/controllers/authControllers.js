@@ -10,8 +10,8 @@ const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_CODE, {
     expiresIn: process.env.JWT_EXPIRES,
   });
-  console.log(expiresIn);
 };
+
 const createSendToken = (user, statusCode, res) => {
   const token = signToken(user._id);
   const cookieOption = {
@@ -21,42 +21,50 @@ const createSendToken = (user, statusCode, res) => {
     httpOnly: true,
   };
 
-  if (process.env.NODE_ENV === "production") {
-    cookieOption.secure = true;
-  }
-  res.cookie("jwt", token, cookieOption);
-  res.status(statusCode).json({
-    statusbar: "success",
-    token: token,
+  // cookieOption.secure = true;
+
+  user.password = undefined;
+
+  // res.cookie("jwt", token, cookieOption);
+  res.status(statusCode).cookie("jwt", token, cookieOption).json({
+    status: "success",
+    token,
     data: {
       user,
     },
   });
 };
+
 export const signUp = catchAsync(async (req, res, next) => {
-  if (req.body.roles === "admin" || req.body.roles === "guard")
+  if (req.body.roles === "admin")
     return next(
       new AppError("You do not have permission to signup as a moderator", 401)
     );
+
+  if (!req.body.password) {
+    req.body.password = req.body.passwordConfirm =
+      req.body.mobileNumber.toString();
+  }
+
   const newUser = await User.create(req.body);
   createSendToken(newUser, 201, res);
 });
 
 export const login = catchAsync(async (req, res, next) => {
-  const { email, password } = req.body;
+  const { email, mobileNumber, password } = req.body;
 
-  if (!email || !password) {
-    return next(new AppError("please provide your email and password", 400));
+  if (!(email || mobileNumber) || !password) {
+    return next(new AppError("please provide your mobile and password", 400));
   }
-  const user = await User.findOne({ email }).select("+password");
-  console.log(user);
+  const user = email
+    ? await User.findOne({ email }).select("+password")
+    : await User.findOne({ mobileNumber }).select("+password");
   if (!user || !(await user.correctPassword(password, user.password))) {
     return next(
       new AppError("The e-mail does not exists or password does not match", 401)
     );
   }
-  createSendToken(user, 201, res);
-  const token = signToken(user._id);
+  createSendToken(user, 200, res);
 });
 
 export const protect = catchAsync(async (req, res, next) => {

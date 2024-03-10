@@ -5,6 +5,7 @@ const tagSchema = mongoose.Schema(
     tagID: {
       type: String,
       trim: true,
+      unique: true,
       require: [true, "There must be a tagID"],
     },
     user: {
@@ -16,7 +17,18 @@ const tagSchema = mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    placeOfVisit: {
+      type: String,
+    },
+    puproseOfVisit: {
+      type: String,
+    },
+    underSupervisionOf: {
+      type: mongoose.Schema.ObjectId,
+      ref: "User",
+    },
   },
+
   {
     timestamps: true,
     toJSON: { virtuals: true },

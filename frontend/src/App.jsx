@@ -1,13 +1,33 @@
-// import Nav from "./sections/nav.jsx";
-// import Login from "./sections/login.jsx";
-import AppLayout from "./components/AppLayout.jsx";
-// import VisitorDetails from "./sections/visitorDetails.jsx";
+import Layout from "./pages/Layout.jsx";
+import {
+  Route,
+  RouterProvider,
+  createBrowserRouter,
+  createRoutesFromElements,
+} from "react-router-dom";
+import Login from "./sections/login.jsx";
+import { loginAction } from "./components/LoginForm.jsx";
+import VisitorDetails, {
+  visitorAction,
+  visitorLoader,
+} from "./sections/visitorDetails.jsx";
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<Layout />} action={visitorAction}>
+      <Route
+        index
+        element={<VisitorDetails />}
+        action={visitorAction}
+        loader={visitorLoader}
+      ></Route>
+      <Route path="login" element={<Login />} action={loginAction}></Route>
+    </Route>
+  )
+);
+
 function App() {
-  return (
-    <main className="grid">
-      <AppLayout />
-    </main>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;

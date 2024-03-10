@@ -7,8 +7,7 @@ import {
   deleteOneUser,
 } from "../controllers/userControllers.js";
 
-console.log(getAllUsers);
-const Router = express.Router(); // Change this line
+const Router = express.Router();
 
 Router.post("/signup", signUp);
 Router.post("/login", login);
