@@ -1,18 +1,10 @@
-import {
-  Form,
-  redirect,
-  useFetcher,
-  useLoaderData,
-  useSubmit,
-} from "react-router-dom";
+import { Form, redirect, useLoaderData, useSubmit } from "react-router-dom";
 import Button from "../components/Button";
 import axios from "axios";
-import { useEffect, useState } from "react";
 
 function VisitorDetails() {
   const tagId = useLoaderData();
   const submit = useSubmit();
-  // const fetcher = useFetcher();
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -102,22 +94,19 @@ export const visitorAction = async function ({ request }) {
     email,
   } = Object.fromEntries(formData);
 
-  // const userRes = await axios.post(
-  //   "http://127.0.0.1:8000/api/v1/users/signUp",
-  //   { mobileNumber, name: firstName + lastName, email }
-  // );
+  const userRes = await axios.post(
+    "http://127.0.0.1:8000/api/v1/users/signUp",
+    { mobileNumber, name: firstName + lastName, email }
+  );
 
-  // const { id } = userRes.data.data.user;
+  const { id } = userRes.data.data.user;
 
-  // const tagRes = await axios.post("http://127.0.0.1:8000/api/v1/tag", {
-  //   tagID,
-  //   placeOfVisit,
-  //   purposeOfVisit,
-  //   user: id,
-  // });
-
-  // console.log(tagRes.data.data);
-  console.log("fadhsjhfskda");
+  const tagRes = await axios.post("http://127.0.0.1:8000/api/v1/tag", {
+    tagID,
+    placeOfVisit,
+    purposeOfVisit,
+    user: id,
+  });
 
   return redirect("/");
 };
