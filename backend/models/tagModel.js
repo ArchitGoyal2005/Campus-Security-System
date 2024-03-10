@@ -17,6 +17,10 @@ const tagSchema = mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    underSupervisionOf: {
+      type: mongoose.Schema.ObjectId,
+      ref: "User",
+    },
   },
   {
     timestamps: true,
