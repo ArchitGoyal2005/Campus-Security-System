@@ -18,6 +18,7 @@ function LoginForm() {
         type="text"
         placeholder="Email"
         name="email"
+        defaultValue="test2@gmail.com"
       />
       <br />
       <input
@@ -25,6 +26,7 @@ function LoginForm() {
         type="password"
         placeholder="Password"
         name="password"
+        defaultValue="jatin1234"
       />
       <div className="py-4">
         <Button label="Login" />
@@ -52,6 +54,9 @@ export const loginAction = async function ({ request }) {
     "http://127.0.0.1:8000/api/v1/users/login",
     data
   );
+
+  const abc = await axios.get("http://127.0.0.1:8000/api/v1/users/");
+  console.log(abc);
 
   // const user = await res.json();
 

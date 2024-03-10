@@ -2,9 +2,13 @@ import User from "../models/userModel.js";
 
 import { promisify } from "util";
 import jwt from "jsonwebtoken";
+import { LocalStorage } from "node-localstorage";
 
 import catchAsync from "../utils/catchAsync.js";
 import AppError from "../utils/AppError.js";
+import exp from "constants";
+
+const localStorage = new LocalStorage("./scratch");
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_CODE, {
@@ -14,19 +18,21 @@ const signToken = (id) => {
 
 const createSendToken = (user, statusCode, res) => {
   const token = signToken(user._id);
-  const cookieOption = {
-    expires: new Date(
-      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
-    ),
-    httpOnly: true,
-  };
+  // const cookieOption = {
+  //   expires: new Date(
+  //     Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+  //   ),
+  //   httpOnly: true,
+  // };
 
   // cookieOption.secure = true;
+
+  localStorage.setItem("jwt", token);
 
   user.password = undefined;
 
   // res.cookie("jwt", token, cookieOption);
-  res.status(statusCode).cookie("jwt", token, cookieOption).json({
+  res.status(statusCode).json({
     status: "success",
     token,
     data: {
@@ -74,11 +80,18 @@ export const protect = catchAsync(async (req, res, next) => {
     req.headers.authorization.startsWith("Bearer")
   ) {
     token = req.headers.authorization.split(" ")[1];
+    console.log("abc");
     console.log(token);
-  }
+  } else {
+    token = localStorage.getItem("jwt");
+    console.log(token);
+  } //  else {
+  //   token = req;
+  //   console.log(token);
+  // }
   if (!token) {
     return next(
-      new AppError("you are not  logged in please login to get toekn!! ", 401)
+      new AppError("You are not  logged in please login to get toekn!! ", 401)
     );
   }
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_CODE);
@@ -113,4 +126,24 @@ export const restrictTo = (...roles) => {
     }
     next();
   };
+};
+
+export const getMe = catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.user.id);
+  if (!user) return next(new AppError("Please login again", 404));
+  res.status(200).json({
+    status: "success",
+    user,
+  });
+});
+
+export const logout = (req, res, next) => {
+  // res.cookie("token", null, {
+  //   expires: new Date(Date.now()),
+  //   httpOnly: true,
+  // });
+  localStorage.removeItem("jwt");
+  res.status(200).json({
+    status: "success",
+  });
 };

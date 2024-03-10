@@ -12,21 +12,21 @@ import VisitorDetails, {
   visitorLoader,
 } from "./sections/visitorDetails.jsx";
 
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route path="/" element={<Layout />} action={visitorAction}>
-      <Route
-        index
-        element={<VisitorDetails />}
-        action={visitorAction}
-        loader={visitorLoader}
-      ></Route>
-      <Route path="login" element={<Login />} action={loginAction}></Route>
-    </Route>
-  )
-);
-
 function App() {
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route path="/" element={<Layout />} action={visitorAction}>
+        <Route
+          index
+          element={<VisitorDetails />}
+          action={visitorAction}
+          loader={visitorLoader}
+        ></Route>
+        <Route path="login" element={<Login />} action={loginAction}></Route>
+      </Route>
+    )
+  );
+
   return <RouterProvider router={router} />;
 }
 
