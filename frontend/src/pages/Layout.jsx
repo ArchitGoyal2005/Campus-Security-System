@@ -1,11 +1,11 @@
-import Login from "../sections/login";
+import { Outlet } from "react-router";
 import Nav from "../sections/nav";
 
 function Layout() {
   return (
     <main className="relative">
       <Nav />
-      <Login />
+      <Outlet />
     </main>
   );
 }

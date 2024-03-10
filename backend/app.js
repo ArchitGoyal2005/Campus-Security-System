@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import AppError from "./utils/AppError.js";
 import userRoutes from "./routes/userRoutes.js";
 import tagRoutes from "./routes/tagRoutes.js";
@@ -7,6 +8,12 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
+
+app.use((req, res, next) => {
+  console.log(req.cookies);
+  next();
+});
 
 app.get("/", (req, res, next) => {
   return res.status(200).json({

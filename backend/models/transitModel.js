@@ -14,12 +14,6 @@ const transitSchema = mongoose.Schema(
     exitTime: {
       type: Date,
     },
-    placeOfVisit: {
-      type: String,
-    },
-    puproseOfVisit: {
-      type: String,
-    },
     tag: {
       type: mongoose.Schema.ObjectId,
       ref: "Tag",

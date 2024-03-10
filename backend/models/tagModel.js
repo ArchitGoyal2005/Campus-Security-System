@@ -17,10 +17,16 @@ const tagSchema = mongoose.Schema(
       type: Boolean,
       default: true,
     },
-    underSupervisionOf: {
-      type: mongoose.Schema.ObjectId,
-      ref: "User",
+    placeOfVisit: {
+      type: String,
     },
+    puproseOfVisit: {
+      type: String,
+    },
+  },
+  underSupervisionOf: {
+    type: mongoose.Schema.ObjectId,
+    ref: "User",
   },
   {
     timestamps: true,
