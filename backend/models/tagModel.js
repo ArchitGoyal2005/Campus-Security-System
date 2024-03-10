@@ -17,6 +17,12 @@ const tagSchema = mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    placeOfVisit: {
+      type: String,
+    },
+    puproseOfVisit: {
+      type: String,
+    },
   },
   {
     timestamps: true,

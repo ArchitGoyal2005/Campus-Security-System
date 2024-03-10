@@ -10,16 +10,19 @@ const userSchema = mongoose.Schema(
     },
     email: {
       type: String,
-      required: [true, "a user must have a emial"],
-      unique: true,
       lowecase: true,
-      validator: [validator.isEmail, "please provide a valid email adress"],
     },
     password: {
       type: String,
       required: [true, "a user must have a password"],
       minlenght: 8,
       select: true,
+    },
+    mobileNumber: {
+      type: Number,
+      required: [true, "A user must have a Mobile No."],
+      unique: true,
+      length: 10,
     },
     passwordConfirm: {
       type: String,
