@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import AppError from "./utils/AppError.js";
 import userRoutes from "./routes/userRoutes.js";
 import tagRoutes from "./routes/tagRoutes.js";
+import trasitRoutes from "./routes/transitRoutes.js";
 const app = express();
 
 app.use(cors());
@@ -23,6 +24,7 @@ app.get("/", (req, res, next) => {
 
 app.use(`/api/v1/users`, userRoutes);
 app.use(`/api/v1/tag`, tagRoutes);
+app.use(`api/v1/transit`, trasitRoutes);
 
 app.use("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));

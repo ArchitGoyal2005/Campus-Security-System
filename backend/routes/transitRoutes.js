@@ -11,3 +11,4 @@ Router.get("/", protect, restrictTo("guard"), getTransits);
 Router.get("/:id", protect, restrictTo("guard"), getTransit);
 Router.post("/", protect, restrictTo("guard"), createTransit);
 Router.patch("/", protect, restrictTo("guard"), updateTransit);
+export default Router;
