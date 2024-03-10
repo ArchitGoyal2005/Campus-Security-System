@@ -23,11 +23,12 @@ const tagSchema = mongoose.Schema(
     puproseOfVisit: {
       type: String,
     },
+    underSupervisionOf: {
+      type: mongoose.Schema.ObjectId,
+      ref: "User",
+    },
   },
-  underSupervisionOf: {
-    type: mongoose.Schema.ObjectId,
-    ref: "User",
-  },
+
   {
     timestamps: true,
     toJSON: { virtuals: true },
