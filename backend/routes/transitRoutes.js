@@ -1,11 +1,11 @@
-import { express } from "express";
+import express from "express";
 import {
-  getTransit,
   createTransit,
   getTransits,
+  getTransit,
   updateTransit,
-} from "../controllers/transitController";
-import { protect, restrictTo } from "../controllers/authControllers";
+} from "../controllers/transitController.js";
+import { protect, restrictTo } from "../controllers/authControllers.js";
 const Router = express.Router();
 Router.get("/", protect, restrictTo("guard"), getTransits);
 Router.get("/:id", protect, restrictTo("guard"), getTransit);
