@@ -5,6 +5,7 @@ import Profile from "../sections/profile";
 // import Login from "../sections/login";
 
 function Layout() {
+  console.log(<Outlet />);
   return (
     <main className="flex h-screen flex-col">
       <Nav />

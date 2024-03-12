@@ -12,6 +12,15 @@ const userSchema = mongoose.Schema(
       type: String,
       lowecase: true,
     },
+    photo: {
+      type: String,
+    },
+    hostel: {
+      type: String,
+    },
+    rollNo: {
+      type: Number,
+    },
     password: {
       type: String,
       required: [true, "a user must have a password"],
