@@ -17,7 +17,7 @@ function Nav() {
           <h1>Indian Institute of Technology Roorkee</h1>
         </div>
       </div>
-      <div className="flex justify-end items-end ">
+      <div className="flex justify-end items-end mr-4">
         <img src={user} alt="user" />
       </div>
     </header>

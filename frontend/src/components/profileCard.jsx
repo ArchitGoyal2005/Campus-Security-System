@@ -8,8 +8,8 @@ function ProfileCard() {
           <div className="flex justify-center py-8">
             <img
               className="rounded-full"
-              width={125}
-              height={125}
+              width={175}
+              height={150}
               src={iitroorkee}
               alt="logo"
             />

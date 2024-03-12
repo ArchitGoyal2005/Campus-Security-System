@@ -22,10 +22,11 @@ function TransitTable() {
     },
   ]);
   return (
-    <section>
-      <div className="text-xl mb-4">
-        <h1 className="font-bold">Transit History</h1>
-      </div>
+    <div className="flex-grow">
+      <h1 className="font-bold flex justify-center mb-10 text-xl">
+        Transit History
+      </h1>
+
       <div className="flex flex-1 justify-center items-center flex-col rounded-[20px] overflow-auto shadow-md">
         <table className=" w-full">
           <thead className="bg-[#82B1C1] border-b-2 border-[#82B1C1]">
@@ -64,7 +65,7 @@ function TransitTable() {
           </tbody>
         </table>
       </div>
-    </section>
+    </div>
   );
 }
 
