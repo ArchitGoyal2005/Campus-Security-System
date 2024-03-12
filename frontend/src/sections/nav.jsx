@@ -1,8 +1,9 @@
-import { headerlogo, user } from "../assets";
-
+import { headerlogo } from "../assets";
+// import Button from "../components/user";
+import Dropdown from "../components/dropdown";
 function Nav() {
   return (
-    <header className="bg-[#82B1C1]  h-20 flex items-center justify-between content-center">
+    <header className="bg-[#82B1C1] h-20 flex items-center justify-between content-center">
       <div className="flex">
         <img
           src={headerlogo}
@@ -18,7 +19,7 @@ function Nav() {
         </div>
       </div>
       <div className="flex justify-end items-end mr-4">
-        <img src={user} alt="user" />
+        <Dropdown />
       </div>
     </header>
   );

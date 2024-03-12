@@ -1,7 +1,8 @@
-// import { Outlet } from "react-router";
+import { Outlet } from "react-router";
 
 import Nav from "../sections/nav";
-import Profile from "../sections/profile";
+// import Dropdown from "../components/dropdown";
+// import Profile from "../sections/profile";
 // import Login from "../sections/login";
 
 function Layout() {
@@ -12,8 +13,7 @@ function Layout() {
       <div className="overflow-scroll no-scrollbar flex flex-1">
         {/* <Outlet /> */}
         {/* <Login /> */}
-
-        <Profile />
+        {/* <Profile /> */}
       </div>
     </main>
   );
