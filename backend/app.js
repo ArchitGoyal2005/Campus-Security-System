@@ -20,7 +20,6 @@ app.get("/", (req, res, next) => {
 
 app.use(`/api/v1/users`, userRoutes);
 app.use(`/api/v1/tag`, tagRoutes);
-
 app.use("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
 });
