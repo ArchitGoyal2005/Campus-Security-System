@@ -1,5 +1,5 @@
-import { Transit } from "../models/transitModel";
-import { createOne, getAll, getOne, updateOne } from "./handlerFactory";
+import { Transit } from "../models/transitModel.js";
+import { createOne, getAll, getOne, updateOne } from "./handlerFactory.js";
 
 export const createTransit = createOne(Transit);
 export const getTransits = getAll(Transit);
