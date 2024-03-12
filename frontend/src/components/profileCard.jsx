@@ -2,9 +2,9 @@ import { iitroorkee } from "../assets";
 
 function ProfileCard() {
   return (
-    <section className="p-10">
-      <div className="">
-        <div className="w-96 h-[525px] rounded-[20px] shadow-3xl bg-[#CDE8E8] opacity-80">
+    <section className="h-full">
+      <div className="h-full">
+        <div className="w-96 h-full rounded-[20px] shadow-3xl bg-[#CDE8E8] opacity-80">
           <div className="flex justify-center py-8">
             <img
               className="rounded-full"
