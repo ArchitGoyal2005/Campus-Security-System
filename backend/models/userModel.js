@@ -16,7 +16,7 @@ const userSchema = mongoose.Schema(
       type: String,
     },
     hostel: {
-      type: String,
+      type: Number,
     },
     rollNo: {
       type: Number,
@@ -24,7 +24,7 @@ const userSchema = mongoose.Schema(
     password: {
       type: String,
       required: [true, "a user must have a password"],
-      minlenght: 8,
+      minlength: 8,
       select: true,
     },
     mobileNumber: {
@@ -50,6 +50,7 @@ const userSchema = mongoose.Schema(
       default: "visitor",
       enum: ["visitor", "guard", "admin", "student", "teacher", "employee"],
     },
+    branch: String,
   },
   {
     timestamps: true,

@@ -17,7 +17,7 @@ const Router = express.Router();
 Router.post("/signup", signUp);
 Router.post("/login", login);
 Router.get("/getMe", protect, getMe);
-Router.post("/", protect, createUser);
+Router.post("/", createUser);
 Router.get("/", protect, getAllUsers);
 Router.get("/:id", protect, getOneUser);
 

@@ -1,4 +1,4 @@
-import { Form, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import isEmail from "validator/lib/isEmail";
@@ -6,9 +6,13 @@ import Button from "./Button";
 import { useUser } from "../conxtexts/userContext";
 
 function LoginForm() {
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [formData, setFormData] = useState({
+    email: "test5@gmail.com",
+    password: "jatin1234",
+  });
   const [error, setError] = useState(null);
   const { setIsAuthenticated, setUser } = useUser();
+
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -36,11 +40,10 @@ function LoginForm() {
         isEmail(email) ? { email, password } : { mobileNumber: email, password }
       );
 
-      console.log(data);
       if (data && data.data.user) {
         setIsAuthenticated(true);
-        setUser(data);
-        navigate("/");
+        setUser(data.data.user);
+        return navigate("/redirect");
       } else {
         setError("Invalid credentials. Please try again.");
       }
@@ -50,7 +53,7 @@ function LoginForm() {
   };
 
   return (
-    <Form
+    <form
       onSubmit={handleSubmit}
       className="flex flex-col justify-center items-center p-24"
     >
@@ -75,7 +78,7 @@ function LoginForm() {
         <Button label="Login" />
       </div>
       {error && <p>{error}</p>}
-    </Form>
+    </form>
   );
 }
 

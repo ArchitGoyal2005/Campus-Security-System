@@ -1,22 +1,25 @@
 import axios from "axios";
 import { iitroorkee } from "../assets";
+import { useUser } from "../conxtexts/userContext";
 
 function ProfileCard() {
+  const { user } = useUser();
+  console.log(user);
   return (
-    <section className="p-10">
-      <div className="">
-        <div className="w-96 h-[525px] rounded-[20px] shadow-3xl bg-[#CDE8E8] opacity-80">
+    <section className="h-full">
+      <div className="h-full">
+        <div className="w-96 h-full rounded-[20px] shadow-3xl bg-[#CDE8E8] opacity-80">
           <div className="flex justify-center py-8">
             <img
               className="rounded-full"
-              width={125}
-              height={125}
+              width={175}
+              height={150}
               src={iitroorkee}
               alt="logo"
             />
           </div>
           <div className="flex justify-center font-bold text-xl">
-            <h1>Indian Institute of Technology Roorkee</h1>
+            <h1>{user.name.toUpperCase()}</h1>
           </div>
 
           <div className="grid grid-rows-4 text-xl p-10 leading-relaxed">
@@ -31,7 +34,4 @@ function ProfileCard() {
   );
 }
 
-export const profileLoader = async () => {
-  const profileReq = await axios.get("http://127.0.0.1:8000/api/v1/users/");
-};
 export default ProfileCard;

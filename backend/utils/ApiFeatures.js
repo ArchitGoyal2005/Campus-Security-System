@@ -11,7 +11,7 @@ export class ApiFeatures {
     let queryStr = JSON.stringify(queryObj);
     queryStr = queryStr.replace(/\b(gte|gt|lt|lte)\b/, (match) => `$${match}`);
     queryObj = JSON.parse(queryStr);
-
+    console.log(queryObj);
     this.query = this.query.find(queryObj);
 
     return this;
@@ -43,9 +43,13 @@ export class ApiFeatures {
   }
   search() {
     if (this.queryRequest.search) {
-      this.query = this.query.find({
-        mobileNumber: { $regex: this.queryRequest.search, $options: "i" },
-      });
+      this.query._collection.collectionName === "transits"
+        ? (this.query = this.query.find({
+            userMobile: { $regex: this.queryRequest.search, $options: "i" },
+          }))
+        : (this.query = this.query.find({
+            mobileNumber: { $regex: this.queryRequest.search, $options: "i" },
+          }));
     }
     return this;
   }

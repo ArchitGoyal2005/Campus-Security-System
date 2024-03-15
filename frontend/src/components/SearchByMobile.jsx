@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 
-function SearchByMobile({ setUser, user, mobile, setMobile }) {
+function SearchByMobile({ setUser, user, mobile, setMobile, setFormData }) {
   const [data, setData] = useState([]);
 
   function handleChange(e) {
@@ -20,6 +20,14 @@ function SearchByMobile({ setUser, user, mobile, setMobile }) {
   function handleNumberClick(e, entry) {
     setUser(entry);
     setMobile(entry.mobileNumber);
+    setFormData({
+      firstName: entry.name.split(" ")[0],
+      lastName: entry.name.split(" ")[1] || " ",
+      company: " ",
+      purposeOfVisit: "",
+      email: entry.email || " ",
+      placeOfVisit: "",
+    });
   }
 
   return (
