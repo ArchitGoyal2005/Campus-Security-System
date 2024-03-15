@@ -1,9 +1,11 @@
 import { Outlet } from "react-router";
 
 import Nav from "../sections/nav";
-// import Dropdown from "../components/dropdown";
-// import Profile from "../sections/profile";
-// import Login from "../sections/login";
+
+import Profile from "../sections/profile";
+import Login from "../sections/login";
+import VisitorDetails from "../sections/visitorDetails";
+import Search from "../components/search";
 
 function Layout() {
   console.log(<Outlet />);
@@ -14,6 +16,8 @@ function Layout() {
         {/* <Outlet /> */}
         {/* <Login /> */}
         {/* <Profile /> */}
+        <VisitorDetails />
+        {/* <Search /> */}
       </div>
     </main>
   );

@@ -19,17 +19,17 @@ import ProtectedRoute from "./components/ProtectedRoute.jsx";
 function App() {
   const { setUser, setIsAuthenticated } = useUser();
 
-  useEffect(() => {
-    (async () => {
-      const { data } = await axios.get(
-        "http://127.0.0.1:8000/api/v1/users/getMe"
-      );
-      if (data.user) {
-        setUser(data.user);
-        setIsAuthenticated(true);
-      }
-    })();
-  }, [setIsAuthenticated, setUser]);
+  // useEffect(() => {
+  //   (async () => {
+  //     const { data } = await axios.get(
+  //       "http://127.0.0.1:8000/api/v1/users/getMe"
+  //     );
+  //     if (data.user) {
+  //       setUser(data.user);
+  //       setIsAuthenticated(true);
+  //     }
+  //   })();
+  // }, [setIsAuthenticated, setUser]);
 
   const router = createBrowserRouter(
     createRoutesFromElements(

@@ -23,7 +23,7 @@ function SearchByMobile({ setUser, user, mobile, setMobile }) {
   }
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col grid-cols-2">
       <input
         className="w-full flex items-center gap-5 p-3 rounded-full bg-[#5184B7] placeholder-black"
         type="text"
@@ -34,13 +34,13 @@ function SearchByMobile({ setUser, user, mobile, setMobile }) {
       ></input>
       {data.length > 0 && (
         <ul
-          className={`z-10 p-5 border-solid border-2 border-gray-100 bg-gray-100 rounded-lg  overflow-y-scroll  h-1/3 opacity-80 ${
-            user ? "hidden" : ""
+          className={`absolute z-10 w-full bg-white border border-gray-300 rounded-md shadow-md overdlow-y-auto max-h-40 ${
+            data.length > 0 && !user ? "block" : "hidden"
           }`}
         >
           {data.map((entry) => (
             <li
-              className="w-full flex items-center  flex-col"
+              className="w-full flex items-center flex-col"
               key={entry.mobileNumber}
               onClick={(e) => handleNumberClick(e, entry)}
               value={entry}

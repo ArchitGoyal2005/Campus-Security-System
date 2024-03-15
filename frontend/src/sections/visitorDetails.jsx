@@ -20,12 +20,20 @@ function VisitorDetails() {
   }
 
   return (
-    <section className="bg-[url('assets/iit.svg')] bg-cover bg-center bg-no-repeat h-screen flex justify-center items-center">
+    <section className="bg-[url('assets/iit.svg')] w-full bg-cover bg-center bg-no-repeat h-screen flex justify-center items-center">
       <div className="w-[1025px] h-[650px] rounded-[20px] shadow-3xl border-gray-800 flex flex-row justify-center bg-[#CDE8E8] opacity-80">
         <Form method="POST" action="/" onSubmit={handleSubmit}>
           <label className="text-3xl font-semibold py-8 flex justify-center items-center">
             Visitor's Details
           </label>
+          <div className="flex justify-center items-center pb-6">
+            <SearchByMobile
+              setUser={setUser}
+              user={user}
+              mobile={mobile}
+              setMobile={setMobile}
+            />
+          </div>
           <div className="grid grid-cols-2 gap-5 rounded-full">
             <input
               className="w-full flex items-center gap-5 p-3 rounded-full bg-[#5184B7] placeholder-black"
@@ -34,12 +42,7 @@ function VisitorDetails() {
               name="tagId"
               defaultValue={tagId}
             />
-            <SearchByMobile
-              setUser={setUser}
-              user={user}
-              mobile={mobile}
-              setMobile={setMobile}
-            />
+
             <input
               className="hidden"
               type="text"
@@ -70,11 +73,7 @@ function VisitorDetails() {
                 user ? (user.name ? user.name.split(" ")[1] || " " : "") : ""
               }
             />
-            <input
-              className="w-full flex items-center gap-5 p-3 rounded-full bg-[#5184B7] placeholder-black"
-              type="text"
-              placeholder="Company"
-            />
+
             <input
               className="w-full flex items-center gap-5 p-3 rounded-full bg-[#5184B7] placeholder-black"
               type="text"
@@ -94,10 +93,9 @@ function VisitorDetails() {
               placeholder="Place of Visit"
               name="placeOfVisit"
             />
-
-            <div className="flex justify-center items-center">
-              <Button label="Generate Token" />
-            </div>
+          </div>
+          <div className="flex justify-center items-center pt-6">
+            <Button label="Generate Token" />
           </div>
         </Form>
       </div>
