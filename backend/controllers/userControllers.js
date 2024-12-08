@@ -6,7 +6,7 @@ export const getAllUsers = getAll(User);
 export const getOneUser = getOne(User);
 export const deleteOneUser = deleteOne(User);
 export const createUser = catchAsync(async (req, res, next) => {
-  req.body.forEach((user) => {
+  [req.body].forEach((user) => {
     if (user.roles === "admin")
       return next(
         new AppError("You do not have permission to signup as a moderator", 401)

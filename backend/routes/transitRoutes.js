@@ -11,7 +11,7 @@ const Router = express.Router();
 Router.get("/", protect, getTransits);
 Router.get("/roles", getTransitByRoles);
 Router.get("/:id", protect, getTransit);
-Router.post("/", protect, createTransit);
+Router.post("/", createTransit);
 Router.patch("/", protect, updateTransit);
 
 export default Router;

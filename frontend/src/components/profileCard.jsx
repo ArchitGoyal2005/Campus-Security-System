@@ -1,5 +1,4 @@
-import axios from "axios";
-import { iitroorkee } from "../assets";
+import { profile } from "../assets";
 import { useUser } from "../conxtexts/userContext";
 
 function ProfileCard() {
@@ -14,7 +13,7 @@ function ProfileCard() {
               className="rounded-full"
               width={175}
               height={150}
-              src={iitroorkee}
+              src={profile}
               alt="logo"
             />
           </div>

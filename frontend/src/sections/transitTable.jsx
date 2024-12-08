@@ -1,4 +1,3 @@
-import { Form, Link } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import TransitTableForm from "../components/TransitTableForm";
@@ -19,10 +18,12 @@ export const transitLoader = async (formData, page, setDataLength, number) => {
 
     const queryString = queryParams.length > 0 ? `?${queryParams}` : "";
 
-    const link = `http://localhost:8000/api/v1/transit${queryString}`;
+    const link = `/api/v1/transit${queryString}`;
 
     console.log(link);
-    const transitReq = await axios.get(link);
+    const transitReq = await axios.get(link, {
+      withCredentials: true,
+    });
     const transitData = transitReq.data.data.doc;
     console.log(transitData);
     setDataLength(transitData.length);
@@ -36,12 +37,27 @@ export const transitLoader = async (formData, page, setDataLength, number) => {
       const exitTimeString = exitTime.toLocaleString();
       console.log(exitTime);
 
-      const timeHours =
-        (exitTime.getTime() - entryTime.getTime()) / (60 * 60 * 1000) || 0;
-      const hoursLeft = timeHours % 24;
-      const daysLeft = timeHours / 24;
+      let durationString = "In the campus";
+      if (exitTime) {
+        const durationMillis = exitTime.getTime() - entryTime.getTime();
+        const totalMinutes = Math.floor(durationMillis / (60 * 1000)); // Total minutes
+        const timeHours = Math.floor(totalMinutes / 60); // Total hours
+        const minutesLeft = totalMinutes % 60;
+
+        if (totalMinutes < 60) {
+          // If duration is less than an hour, show in minutes
+          durationString = `${totalMinutes} mins`;
+        } else {
+          // If duration is in hours and days
+          const daysLeft = Math.floor(timeHours / 24);
+          const hoursLeft = timeHours % 24;
+          durationString = `${
+            daysLeft ? daysLeft + " days " : ""
+          }${hoursLeft} hrs`;
+        }
+      }
       return (
-        <div className="grid grid-cols-8 divide-y divide-[#82B1C1]  " key={i}>
+        <div className="grid grid-cols-8 divide-y divide-[#82B1C1]" key={i}>
           <div className="col-span-1 p-3 text-md text-gray-700  font-semibold text-center">
             {number + i}
           </div>
@@ -52,9 +68,7 @@ export const transitLoader = async (formData, page, setDataLength, number) => {
             {transit.tagID}
           </div>
           <div className="col-span-1 p-3 text-md text-gray-700  font-semibold text-center">
-            {daysLeft !== 0 || hoursLeft !== 0
-              ? daysLeft + "days" + hoursLeft + "hrs"
-              : "In the campus"}
+            {durationString}
           </div>
           <div className="col-span-1 p-3 text-md text-gray-700  font-semibold text-center">
             {entryTimeString}
@@ -96,17 +110,17 @@ function TransitTable() {
     transitLoader(formData, page, setDataLength, number)
       .then((jsxElements) => {
         setTransitData(jsxElements);
-        setLoading(false); // Set loading to false once data is fetched
+        setLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching transit data:", error);
-        setLoading(false); // Set loading to false in case of error
+        setLoading(false);
       });
-  }, [formData, page, number]); // Empty dependency array ensures the effect runs only once
+  }, [formData, page, number]);
 
   return (
-    <section className="bg-[url('assets/iit.svg')] bg-cover bg-center bg-no-repeat h-full flex justify-center items-center ">
-      <div className="w-[1025px] h-auto rounded-[20px] shadow-3xl border-gray-800 flex flex-col justify-center bg-[#CDE8E8] opacity-80 py-10 px-5 mt-20">
+    <section className="bg-[url('assets/iit.svg')] bg-cover bg-center bg-no-repeat h-fit flex justify-center items-center ">
+      <div className="w-[1025px] h-auto rounded-[20px] shadow-3xl border-gray-800 flex flex-col justify-center bg-[#CDE8E8] opacity-80 py-10 px-5 mt-20 ">
         <div className="flex justify-between  items-center">
           <button
             className=" font-semibold"

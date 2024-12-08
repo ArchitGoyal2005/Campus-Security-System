@@ -11,9 +11,9 @@ function SearchByMobile({ setUser, user, mobile, setMobile, setFormData }) {
   }
 
   async function getData(mobile) {
-    const data = await axios.get(
-      `http://127.0.0.1:8000/api/v1/users/?search=${mobile}`
-    );
+    const data = await axios.get(`/api/v1/users/?search=${mobile}`, {
+      withCredentials: true,
+    });
     setData(data.data.data.doc);
   }
 
@@ -31,18 +31,18 @@ function SearchByMobile({ setUser, user, mobile, setMobile, setFormData }) {
   }
 
   return (
-    <div className="flex flex-col">
+    <div className="">
       <input
-        className="w-full flex items-center gap-5 p-3 rounded-full bg-[#5184B7] placeholder-black"
+        className="relative w-full flex items-center gap-5 p-3 rounded-full bg-[#5184B7] placeholder-black"
         type="text"
-        placeholder="Search"
+        placeholder="Enter Mobile Number"
         value={mobile}
         onChange={handleChange}
         defaultValue={user?.mobileNumber}
       ></input>
-      {data.length > 0 && (
+      {data.length > 0 && mobile.length > 0 && (
         <ul
-          className={`z-10 p-5 border-solid border-2 border-gray-100 bg-gray-100 rounded-lg  overflow-y-scroll  h-1/3 opacity-80 ${
+          className={`w-[200px] bg-[#abd2d2] p-5 border-solid border-2 border-[#abd2d2] no-scrollbar absolute rounded-lg  overflow-y-scroll  h-1/3 opacity-80 ${
             user ? "hidden" : ""
           }`}
         >

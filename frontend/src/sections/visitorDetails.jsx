@@ -2,12 +2,12 @@ import Button from "../components/Button";
 import axios from "axios";
 import SearchByMobile from "../components/SearchByMobile";
 import { useEffect, useState } from "react";
+import { profile } from "../assets";
 
 function VisitorDetails() {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
-    company: "",
     purposeOfVisit: "",
     email: "",
     placeOfVisit: "",
@@ -32,26 +32,37 @@ function VisitorDetails() {
   async function handleSubmit(e) {
     e.preventDefault();
 
+    console.log(formData);
     // Handle form submission here
     try {
+      formData.mobileNumber = mobile;
       const {
-        mobileNumber,
         firstName,
         lastName,
         placeOfVisit,
         purposeOfVisit,
         email,
+        mobileNumber,
+        photo,
       } = formData;
+
+      if (!firstName) return setError("Enter the name of the user");
 
       let id;
 
       if (user === null) {
         const userRes = await axios.post(
-          "http://127.0.0.1:8000/api/v1/users/",
+          "/api/v1/users/",
           {
             mobileNumber,
             name: firstName + lastName,
             email,
+          },
+          {
+            withCredentials: true,
+            headers: {
+              "Content-Type": "application/json",
+            },
           }
         );
         id = userRes.data.data.user.id;
@@ -59,31 +70,26 @@ function VisitorDetails() {
         id = user;
       }
 
-      console.log(id);
-
-      const a = await axios.post("http://127.0.0.1:8000/api/v1/tag", {
-        tagID: tagId,
-        placeOfVisit,
-        purposeOfVisit,
-        user: id,
-      });
-      console.log(a);
+      const a = await axios.post(
+        "/api/v1/tag",
+        {
+          tagID: tagId,
+          placeOfVisit,
+          purposeOfVisit,
+          user: id,
+        },
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
     } catch (error) {
       setError(error.message);
     }
 
-    // Reset form fields
-    setMobile("");
-    setFormData({
-      firstName: "",
-      lastName: "",
-      company: "",
-      purposeOfVisit: "",
-      email: "",
-      placeOfVisit: "",
-    });
-    setUser(null);
-    setSubmitted(true);
+    window.location.reload();
   }
 
   return (
@@ -93,6 +99,16 @@ function VisitorDetails() {
           <label className="text-3xl font-semibold py-8 flex justify-center items-center">
             Visitor's Details
           </label>
+          <div className="flex justify-center items-center pb-6 gap-1">
+            <SearchByMobile
+              setUser={setUser}
+              user={user}
+              mobile={mobile}
+              setMobile={setMobile}
+              setFormData={setFormData}
+            />
+          </div>
+
           <div className="grid grid-cols-2 gap-5 rounded-full">
             <input
               className="w-full flex items-center gap-5 p-3 rounded-full bg-[#5184B7] placeholder-black"
@@ -101,14 +117,6 @@ function VisitorDetails() {
               name="tagId"
               value={tagId}
               onChange={(e) => setTagId(e.target.value)}
-              disabled
-            />
-            <SearchByMobile
-              setUser={setUser}
-              user={user}
-              mobile={mobile}
-              setMobile={setMobile}
-              setFormData={setFormData}
             />
             <input
               className="w-full flex items-center gap-5 p-3 rounded-full bg-[#5184B7] placeholder-black"
@@ -119,7 +127,6 @@ function VisitorDetails() {
               onChange={(e) =>
                 setFormData({ ...formData, firstName: e.target.value })
               }
-              disabled={user === null}
             />
             <input
               className="w-full flex items-center gap-5 p-3 rounded-full bg-[#5184B7] placeholder-black"
@@ -130,18 +137,6 @@ function VisitorDetails() {
               onChange={(e) =>
                 setFormData({ ...formData, lastName: e.target.value })
               }
-              disabled={user === null}
-            />
-            <input
-              className="w-full flex items-center gap-5 p-3 rounded-full bg-[#5184B7] placeholder-black"
-              type="text"
-              placeholder="Company"
-              name="company"
-              value={formData.company}
-              onChange={(e) =>
-                setFormData({ ...formData, company: e.target.value })
-              }
-              disabled={user === null}
             />
             <input
               className="w-full flex items-center gap-5 p-3 rounded-full bg-[#5184B7] placeholder-black"
@@ -162,7 +157,6 @@ function VisitorDetails() {
               onChange={(e) =>
                 setFormData({ ...formData, email: e.target.value })
               }
-              disabled={user === null}
             />
             <input
               className="w-full flex items-center gap-5 p-3 rounded-full bg-[#5184B7] placeholder-black"
@@ -175,10 +169,18 @@ function VisitorDetails() {
               }
             />
 
-            <div className="flex justify-center items-center">
-              <Button label="Generate Token" />
+            <div className="w-full flex items-center gap-5 p-3 rounded-full  font-bold placeholder-black">
+              USER PHOTO
             </div>
+            <div className="w-full flex items-center gap-5 p-3 rounded-full  placeholder-black">
+              <img src={profile} alt="User" width={100} />
+            </div>
+
+            <div className="flex justify-center items-center"></div>
             {error === "" ? "" : <p>{error}</p>}
+          </div>
+          <div className="flex justify-center items-center pt-6">
+            <Button label="Generate Token" />
           </div>
         </form>
       </div>
